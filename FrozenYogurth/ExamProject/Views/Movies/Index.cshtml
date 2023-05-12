@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MvcMovie.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+}
+    
+<div class="rowsContainer">
+    <div class="innerContainer">
+        <h2>Admin Panel</h2>
+        <p>
+
+            @Html.ActionLink("Create New", "Create", null ,new { @class = "btn btn-default"})
+
+
+        </p>
+        @using (Html.BeginForm("Index", "Movies", FormMethod.Get))
+        {
+            <div class="text-left">
+                <div> Title: @Html.TextBox("SearchString", null, new { @class = "myInputStyle form-control" }) </div>
+                <br/>
+                <div> Genre: @Html.DropDownList("movieGenre", null, new { @class = "myInputStyle form-control" }) 
+                        <input type="submit" value="Search" class="btn btn-default" />
+                </div>
+                <br />
+            </div>
+        }
+
+
+        <table class="table" >
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Picture)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Video)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.OrderByDescending(m => m.ID))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td style="overflow:hidden">
+                        @Html.DisplayFor(modelItem => item.Picture)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Video)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })<br />
+                        @Html.ActionLink("Details", "Details", new { id = item.ID })<br />
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

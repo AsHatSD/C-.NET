@@ -1,0 +1,53 @@
+﻿@model MvcMovie.Models.Movie
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <h2>Movie Details</h2>
+    <br />
+    <div class="row ownsersBox">
+        <div class="col-xs-3 detailsImageBox">
+            <img class="movieImage" src="@Html.DisplayFor(model => model.Picture)" />
+        </div>
+        <div class="col-xs-9 detailsImageBox">
+            <iframe width="100%" height="100%" src="@Html.DisplayFor(model => model.Video)" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="col-xs-9">
+            <h1>@Html.DisplayFor(model => model.Title)</h1>
+            <div class="detailsText">@Html.DisplayNameFor(model => model.ReleaseDate) : @Html.DisplayFor(model => model.ReleaseDate)</div>
+            <div class="detailsText">@Html.DisplayNameFor(model => model.Genre) : @Html.DisplayFor(model => model.Genre)</div>
+            <div class="detailsText">@Html.DisplayNameFor(model => model.Description) : @Html.DisplayFor(model => model.Description)</div>
+            <br />
+            <p>
+                @Html.ActionLink("Back to List", "Index", "Home",null, new { @class = "btn btn-default" }) @*  null  --> routeValues*@
+                @if (ViewContext.HttpContext.User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
+                }
+            </p>
+        </div>
+        <div class="col-xs-3 text-center">
+            <div class="ratingTitle">@Html.DisplayNameFor(model => model.Rating) </div>
+            <div class="doughnut">
+                @Html.DisplayFor(model => model.Rating)
+            </div>
+        </div>
+    </div>
+    <br />
+    @Scripts.Render("~/bundles/jquery")
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ratingNumber = @Html.DisplayFor(model => model.Rating);
+        if(ratingNumber < 5 )
+            $(".doughnut").css('border-color', '#d9534f', '!important');
+        else if ( ratingNumber > 5 && ratingNumber <= 7)
+            $(".doughnut").css('border-color', '#f0ad4e', '!important');
+        else
+            $(".doughnut").css('border-color', 'rgb(111, 219, 111)', '!important');
+    });
+</script>

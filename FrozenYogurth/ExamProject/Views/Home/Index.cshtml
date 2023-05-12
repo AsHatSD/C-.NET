@@ -1,0 +1,33 @@
+﻿@model IEnumerable<MvcMovie.Models.Movie>
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get ))
+    {
+        <div>
+            <div class="text-center">   
+                @Html.TextBox("searchedMovie", null, new { @class = "form-control myInputStyle", placeholder = "Looking for a movie ?"}) 
+                <input class="btn btn-default" type="submit" value="Search" />
+            </div>
+        </div>
+    }
+
+    <div class="row movieContainer">
+        @foreach (var item in Model.OrderByDescending(m => m.ID))
+        {
+            <div class="col-xs-6 col-md-3 col-lg-3 movieBox">
+                <div class="movieTitle">@Html.ActionLink(item.Title, "Details", "Movies", new { id = item.ID }, new { @class = "actionLink" })</div>
+                <img class="movieImage" src="@Html.DisplayFor(modelItem => item.Picture)" />
+            </div>
+
+        }
+    </div>
+
+</div>
+
+<script>
+    var apiMovies = function ($http) {
+        return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=20');
+    }
+</script>
